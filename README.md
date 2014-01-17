@@ -6,7 +6,7 @@ using a data format that makes standardisation and data validation easier. When
 the PhenoDCC receives these XML documents, they are stored verbatim in the
 `phenodcc_raw` database. However, for the most frequent queries that are used by
 the annotation generator and data display, it is faster to prepare overview
-record set that are queried frequently. The `phenodcc_overview` database stores
+records set that are queried frequently. The `phenodcc_overviews` database stores
 the collection of data that are queried most frequently.
 
 _The database schema is defined elsewhere in the overview builder_. In this
