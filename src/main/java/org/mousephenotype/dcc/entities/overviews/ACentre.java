@@ -38,16 +38,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlType(propOrder = {"i", "f", "s", "a", "t", "c", "u", "m"})
 @NamedQueries({
-    @NamedQuery(name = "Centre.findAll", query = "SELECT c FROM Centre c"),
-    @NamedQuery(name = "Centre.findByCentreId", query = "SELECT c FROM Centre c WHERE c.centreId = :centreId"),
-    @NamedQuery(name = "Centre.findByFullName", query = "SELECT c FROM Centre c WHERE c.fullName = :fullName"),
-    @NamedQuery(name = "Centre.findByShortName", query = "SELECT c FROM Centre c WHERE c.shortName = :shortName"),
-    @NamedQuery(name = "Centre.findByAddress", query = "SELECT c FROM Centre c WHERE c.address = :address"),
-    @NamedQuery(name = "Centre.findByTelephoneNumber", query = "SELECT c FROM Centre c WHERE c.telephoneNumber = :telephoneNumber"),
-    @NamedQuery(name = "Centre.findByContactName", query = "SELECT c FROM Centre c WHERE c.contactName = :contactName"),
-    @NamedQuery(name = "Centre.findByUrl", query = "SELECT c FROM Centre c WHERE c.url = :url"),
-    @NamedQuery(name = "Centre.findByImitsName", query = "SELECT c FROM Centre c WHERE c.imitsName = :imitsName")})
-public class Centre implements Serializable {
+    @NamedQuery(name = "ACentre.findAll", query = "SELECT c FROM ACentre c"),
+    @NamedQuery(name = "ACentre.findByCentreId", query = "SELECT c FROM ACentre c WHERE c.centreId = :centreId"),
+    @NamedQuery(name = "ACentre.findByFullName", query = "SELECT c FROM ACentre c WHERE c.fullName = :fullName"),
+    @NamedQuery(name = "ACentre.findByShortName", query = "SELECT c FROM ACentre c WHERE c.shortName = :shortName"),
+    @NamedQuery(name = "ACentre.findByAddress", query = "SELECT c FROM ACentre c WHERE c.address = :address"),
+    @NamedQuery(name = "ACentre.findByTelephoneNumber", query = "SELECT c FROM ACentre c WHERE c.telephoneNumber = :telephoneNumber"),
+    @NamedQuery(name = "ACentre.findByContactName", query = "SELECT c FROM ACentre c WHERE c.contactName = :contactName"),
+    @NamedQuery(name = "ACentre.findByUrl", query = "SELECT c FROM ACentre c WHERE c.url = :url"),
+    @NamedQuery(name = "ACentre.findByImitsName", query = "SELECT c FROM ACentre c WHERE c.imitsName = :imitsName")})
+public class ACentre implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,14 +70,14 @@ public class Centre implements Serializable {
     @Column(name = "imits_name", length = 55)
     private String imitsName;
 
-    public Centre() {
+    public ACentre() {
     }
 
-    public Centre(Integer centreId) {
+    public ACentre(Integer centreId) {
         this.centreId = centreId;
     }
 
-    public Centre(Integer centreId, String shortName) {
+    public ACentre(Integer centreId, String shortName) {
         this.centreId = centreId;
         this.shortName = shortName;
     }

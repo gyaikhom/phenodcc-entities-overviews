@@ -32,11 +32,11 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity
 @XmlRootElement
-@XmlType(propOrder = {"m", "a", "n", "g", "t", "s", "z", "d", "i", "v"})
+@XmlType(propOrder = {"m", "a", "n", "g", "t", "s", "z", "d", "i", "v", "x", "u"})
 public class MeasuredValues implements Serializable {
 
     @Id
-    private Integer measurementId;
+    private Long measurementId;
     private BigInteger animalId;
     private String animalName;
     private BigInteger genotype;
@@ -47,14 +47,17 @@ public class MeasuredValues implements Serializable {
     private Date startDate;
     private String increment;
     private String value;
+    private Long trackerId;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModified;
 
     public MeasuredValues() {
     }
 
-    public MeasuredValues(Integer measurementId, BigInteger animalId,
+    public MeasuredValues(Long measurementId, BigInteger animalId,
             String animalName, BigInteger genotype, BigInteger strain,
             Integer sex, Integer zygosity, Date startDate, String increment,
-            String value) {
+            String value, Long trackerId) {
         this.measurementId = measurementId;
         this.animalId = animalId;
         this.animalName = animalName;
@@ -65,14 +68,15 @@ public class MeasuredValues implements Serializable {
         this.startDate = startDate;
         this.increment = increment;
         this.value = value;
+        this.trackerId = trackerId;
     }
 
     @XmlElement(name = "m")
-    public Integer getMeasurementId() {
+    public Long getMeasurementId() {
         return measurementId;
     }
 
-    public void setMeasurementId(Integer measurementId) {
+    public void setMeasurementId(Long measurementId) {
         this.measurementId = measurementId;
     }
 
@@ -155,5 +159,23 @@ public class MeasuredValues implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @XmlElement(name = "x")
+    public Long getTrackerId() {
+        return trackerId;
+    }
+
+    public void setTrackerId(Long trackerId) {
+        this.trackerId = trackerId;
+    }
+
+    @XmlElement(name = "u")
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 }
