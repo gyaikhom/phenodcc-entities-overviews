@@ -54,9 +54,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MeasurementsPerformed.findByMeasurementType", query = "SELECT m FROM MeasurementsPerformed m WHERE m.measurementType = :measurementType"),
     @NamedQuery(name = "MeasurementsPerformed.findByTrackerId", query = "SELECT m FROM MeasurementsPerformed m WHERE m.trackerId = :trackerId"),
     @NamedQuery(name = "MeasurementsPerformed.findByMeasurementIdContext", query = "SELECT m FROM MeasurementsPerformed m WHERE (m.measurementId = :measurementId AND m.centreId = :cid AND m.genotypeId = :gid AND m.strainId = :sid AND m.parameterId = :qeid)"),
-    @NamedQuery(name = "MeasurementsPerformed.findMutantMeasurementsIgnorePipeline", query = "SELECT new org.mousephenotype.dcc.entities.overviews.MeasuredValues(m.measurementId, p.animalId, p.animalName, p.genotypeId, p.strainId, p.sex, p.zygosity, p.startDate, m.increment, m.value, m.trackerId) FROM MeasurementsPerformed m, ProcedureAnimalOverview p WHERE (m.centreId = :centreId and m.genotypeId = :genotypeId and m.strainId = :strainId and m.parameterId = :parameterKey and p.procedureOccurrenceId = m.procedureOccurrenceId and p.procedureId = :procedureKey)"),
-    @NamedQuery(name = "MeasurementsPerformed.findMutantMeasurements", query = "SELECT new org.mousephenotype.dcc.entities.overviews.MeasuredValues(m.measurementId, p.animalId, p.animalName, p.genotypeId, p.strainId, p.sex, p.zygosity, p.startDate, m.increment, m.value, m.trackerId) FROM MeasurementsPerformed m, ProcedureAnimalOverview p, Pipeline i WHERE (m.centreId = :centreId and m.genotypeId = :genotypeId and m.strainId = :strainId and m.parameterId = :parameterKey and p.procedureOccurrenceId = m.procedureOccurrenceId and p.procedureId = :procedureKey and p.pipeline = i.pipelineKey and i.pipelineId = :pipelineId)"),
-    @NamedQuery(name = "MeasurementsPerformed.findBaselineMeasurements", query = "SELECT new org.mousephenotype.dcc.entities.overviews.MeasuredValues(m.measurementId, b.animalId, b.animalName, b.genotypeId, b.strainId, b.sex, b.zygosity, b.startDate, m.increment, m.value, m.trackerId) FROM MeasurementsPerformed m, ProcedureAnimalOverview b WHERE (b.procedureOccurrenceId = m.procedureOccurrenceId AND b.centreId = :centreId AND b.pipeline = :pipeline AND b.genotypeId = 0 AND b.strainId = :strainId AND b.procedureId = :procedureId AND m.parameterId = :parameterId AND b.metadataGroup = :metadataGroup)")})
+    @NamedQuery(name = "MeasurementsPerformed.findMutantMeasurementsIgnorePipeline", query = "SELECT new org.mousephenotype.dcc.entities.overviews.MeasuredValues(m.measurementId, p.animalId, p.animalName, p.genotypeId, p.strainId, p.sex, p.zygosity, p.startDate, m.increment, m.value, m.trackerId, m.metadataGroup) FROM MeasurementsPerformed m, ProcedureAnimalOverview p WHERE (m.centreId = :centreId and m.genotypeId = :genotypeId and m.strainId = :strainId and m.parameterId = :parameterKey and p.procedureOccurrenceId = m.procedureOccurrenceId and p.procedureId = :procedureKey)"),
+    @NamedQuery(name = "MeasurementsPerformed.findMutantMeasurements", query = "SELECT new org.mousephenotype.dcc.entities.overviews.MeasuredValues(m.measurementId, p.animalId, p.animalName, p.genotypeId, p.strainId, p.sex, p.zygosity, p.startDate, m.increment, m.value, m.trackerId, m.metadataGroup) FROM MeasurementsPerformed m, ProcedureAnimalOverview p, Pipeline i WHERE (m.centreId = :centreId and m.genotypeId = :genotypeId and m.strainId = :strainId and m.parameterId = :parameterKey and p.procedureOccurrenceId = m.procedureOccurrenceId and p.procedureId = :procedureKey and p.pipeline = i.pipelineKey and i.pipelineId = :pipelineId)"),
+    @NamedQuery(name = "MeasurementsPerformed.findBaselineMeasurements", query = "SELECT new org.mousephenotype.dcc.entities.overviews.MeasuredValues(m.measurementId, b.animalId, b.animalName, b.genotypeId, b.strainId, b.sex, b.zygosity, b.startDate, m.increment, m.value, m.trackerId, m.metadataGroup) FROM MeasurementsPerformed m, ProcedureAnimalOverview b WHERE (b.procedureOccurrenceId = m.procedureOccurrenceId AND b.centreId = :centreId AND b.pipeline = :pipeline AND b.genotypeId = 0 AND b.strainId = :strainId AND b.procedureId = :procedureId AND m.parameterId = :parameterId AND b.metadataGroup = :metadataGroup)")})
 public class MeasurementsPerformed implements Serializable {
 
     @Id
@@ -105,7 +105,9 @@ public class MeasurementsPerformed implements Serializable {
     @Basic(optional = false)
     @Column(name = "tracker_id", nullable = false)
     private Long trackerId;
-
+    @Column(name = "metadataGroup", length = 255)
+    private String metadataGroup;
+    
     public MeasurementsPerformed() {
     }
 
@@ -117,7 +119,7 @@ public class MeasurementsPerformed implements Serializable {
             String shortName, Integer centreId, Integer strainId,
             boolean sex, Integer genotypeId, Integer animalId,
             Integer procedureOccurrenceId, Long measurementId,
-            Long trackerId) {
+            Long trackerId, String metadataGroup) {
         this.measurementsPerformedId = measurementsPerformedId;
         this.shortName = shortName;
         this.centreId = centreId;
@@ -128,6 +130,7 @@ public class MeasurementsPerformed implements Serializable {
         this.procedureOccurrenceId = procedureOccurrenceId;
         this.measurementId = measurementId;
         this.trackerId = trackerId;
+        this.metadataGroup = metadataGroup;
     }
 
     public Long getMeasurementsPerformedId() {
@@ -264,5 +267,13 @@ public class MeasurementsPerformed implements Serializable {
 
     public void setTrackerId(Long trackerId) {
         this.trackerId = trackerId;
+    }
+
+    public String getMetadataGroup() {
+        return metadataGroup;
+    }
+
+    public void setMetadataGroup(String metadataGroup) {
+        this.metadataGroup = metadataGroup;
     }
 }

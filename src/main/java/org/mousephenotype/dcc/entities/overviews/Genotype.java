@@ -57,7 +57,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Genotype.findByHTGTprojectid", query = "SELECT g FROM Genotype g WHERE g.hTGTprojectid = :hTGTprojectid"),
     @NamedQuery(name = "Genotype.findByCentreId", query = "SELECT g FROM Genotype g WHERE g.centreId = :centreId"),
     @NamedQuery(name = "Genotype.findByStrainId", query = "SELECT g FROM Genotype g WHERE g.strainId = :strainId"),
-    @NamedQuery(name = "Genotype.findByMGIstrainid", query = "SELECT g FROM Genotype g WHERE g.mGIstrainid = :mGIstrainid")})
+    @NamedQuery(name = "Genotype.findByMGIstrainid", query = "SELECT g FROM Genotype g WHERE g.mGIstrainid = :mGIstrainid"),
+    @NamedQuery(name = "Genotype.findByPaId", query = "SELECT g FROM Genotype g WHERE g.paId = :paId"),
+    @NamedQuery(name = "Genotype.findByMiId", query = "SELECT g FROM Genotype g WHERE g.miId = :miId"),
+    @NamedQuery(name = "Genotype.findByPpId", query = "SELECT g FROM Genotype g WHERE g.ppId = :ppId")})
 public class Genotype implements Serializable {
 
     @Id
@@ -107,6 +110,15 @@ public class Genotype implements Serializable {
     private Integer strainId;
     @Column(name = "MGI_strain_id", length = 45)
     private String mGIstrainid;
+    @Basic(optional = false)
+    @Column(name = "pa_id")
+    private int paId;
+    @Basic(optional = false)
+    @Column(name = "mi_id")
+    private int miId;
+    @Basic(optional = false)
+    @Column(name = "pp_id")
+    private int ppId;
 
     public Genotype() {
     }
@@ -289,5 +301,54 @@ public class Genotype implements Serializable {
 
     public void setMGIstrainid(String mGIstrainid) {
         this.mGIstrainid = mGIstrainid;
+    }
+
+    public int getPaId() {
+        return paId;
+}
+
+    public void setPaId(int paId) {
+        this.paId = paId;
+    }
+
+    public int getMiId() {
+        return miId;
+    }
+
+    public void setMiId(int miId) {
+        this.miId = miId;
+    }
+
+    public int getPpId() {
+        return ppId;
+    }
+
+    public void setPpId(int ppId) {
+        this.ppId = ppId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (genotypeId != null ? genotypeId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Genotype)) {
+            return false;
+        }
+        Genotype other = (Genotype) object;
+        if ((this.genotypeId == null && other.genotypeId != null) || (this.genotypeId != null && !this.genotypeId.equals(other.genotypeId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "org.mousephenotype.dcc.entity.temp.Genotype[ genotypeId=" + genotypeId + " ]";
     }
 }

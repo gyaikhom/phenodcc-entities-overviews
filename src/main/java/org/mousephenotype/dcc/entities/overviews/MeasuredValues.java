@@ -24,7 +24,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.eclipse.persistence.oxm.annotations.XmlTransformation;
 
 /**
  *
@@ -32,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @Entity
 @XmlRootElement
-@XmlType(propOrder = {"m", "a", "n", "g", "t", "s", "z", "d", "i", "v", "x", "u"})
+@XmlType(propOrder = {"m", "a", "n", "g", "t", "s", "z", "d", "i", "v", "x", "u", "e"})
 public class MeasuredValues implements Serializable {
 
     @Id
@@ -50,6 +52,8 @@ public class MeasuredValues implements Serializable {
     private Long trackerId;
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
+    private String metadataGroup;
+    private Long metadataGroupIndex;
 
     public MeasuredValues() {
     }
@@ -57,7 +61,7 @@ public class MeasuredValues implements Serializable {
     public MeasuredValues(Long measurementId, BigInteger animalId,
             String animalName, BigInteger genotype, BigInteger strain,
             Integer sex, Integer zygosity, Date startDate, String increment,
-            String value, Long trackerId) {
+            String value, Long trackerId, String metadataGroup) {
         this.measurementId = measurementId;
         this.animalId = animalId;
         this.animalName = animalName;
@@ -69,6 +73,7 @@ public class MeasuredValues implements Serializable {
         this.increment = increment;
         this.value = value;
         this.trackerId = trackerId;
+        this.metadataGroup = metadataGroup;
     }
 
     @XmlElement(name = "m")
@@ -178,4 +183,23 @@ public class MeasuredValues implements Serializable {
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
+
+    @XmlTransient
+    public String getMetadataGroup() {
+        return metadataGroup;
+    }
+
+    public void setMetadataGroup(String metadataGroup) {
+        this.metadataGroup = metadataGroup;
+    }
+
+    @XmlElement(name = "e")
+    public Long getMetadataGroupIndex() {
+        return metadataGroupIndex;
+    }
+
+    public void setMetadataGroupIndex(Long metadataGroupIndex) {
+        this.metadataGroupIndex = metadataGroupIndex;
+    }
+
 }
