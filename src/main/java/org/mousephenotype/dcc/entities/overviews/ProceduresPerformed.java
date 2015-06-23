@@ -91,7 +91,14 @@ public class ProceduresPerformed implements Serializable {
         this.proceduresPerformedId = proceduresPerformedId;
     }
 
-    public ProceduresPerformed(Long proceduresPerformedId, int procedureTypeId, int strainId, int centreId, int genotypeId, String cohortId, Integer zygosity) {
+    public ProceduresPerformed(
+            Long proceduresPerformedId,
+            int procedureTypeId,
+            int strainId,
+            int centreId,
+            int genotypeId,
+            String cohortId,
+            Integer zygosity) {
         this.proceduresPerformedId = proceduresPerformedId;
         this.procedureTypeId = procedureTypeId;
         this.strainId = strainId;

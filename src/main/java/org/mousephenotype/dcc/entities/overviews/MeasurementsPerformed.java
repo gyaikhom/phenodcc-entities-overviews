@@ -16,6 +16,7 @@
 package org.mousephenotype.dcc.entities.overviews;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -79,7 +82,13 @@ public class MeasurementsPerformed implements Serializable {
     private String value;
     @Basic(optional = false)
     @Column(nullable = false)
-    private boolean sex;
+    private Integer sex;
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private Integer zygosity;
+    @Column(name = "start_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
     @Column(length = 40)
     private String increment;
     @Column(name = "parameter_id", length = 45)
@@ -107,7 +116,7 @@ public class MeasurementsPerformed implements Serializable {
     private Long trackerId;
     @Column(name = "metadataGroup", length = 255)
     private String metadataGroup;
-    
+
     public MeasurementsPerformed() {
     }
 
@@ -115,11 +124,18 @@ public class MeasurementsPerformed implements Serializable {
         this.measurementsPerformedId = measurementsPerformedId;
     }
 
-    public MeasurementsPerformed(Long measurementsPerformedId,
-            String shortName, Integer centreId, Integer strainId,
-            boolean sex, Integer genotypeId, Integer animalId,
-            Integer procedureOccurrenceId, Long measurementId,
-            Long trackerId, String metadataGroup) {
+    public MeasurementsPerformed(
+            Long measurementsPerformedId,
+            String shortName,
+            Integer centreId,
+            Integer strainId,
+            Integer sex,
+            Integer genotypeId,
+            Integer animalId,
+            Integer procedureOccurrenceId,
+            Long measurementId,
+            Long trackerId,
+            String metadataGroup) {
         this.measurementsPerformedId = measurementsPerformedId;
         this.shortName = shortName;
         this.centreId = centreId;
@@ -181,12 +197,28 @@ public class MeasurementsPerformed implements Serializable {
         this.value = value;
     }
 
-    public boolean getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
+    }
+
+    public Integer getZygosity() {
+        return zygosity;
+    }
+
+    public void setZygosity(Integer zygosity) {
+        this.zygosity = zygosity;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public String getIncrement() {

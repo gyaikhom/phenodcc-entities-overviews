@@ -10,5 +10,6 @@
     <class>org.mousephenotype.dcc.entities.overviews.Strain</class>
     <class>org.mousephenotype.dcc.entities.overviews.Genotype</class>
     <class>org.mousephenotype.dcc.entities.overviews.ProcedureMetadataGroup</class>
+    <class>org.mousephenotype.dcc.entities.overviews.MetadataGroupToValues</class>
   </persistence-unit>
 </persistence>

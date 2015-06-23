@@ -16,6 +16,16 @@
 package org.mousephenotype.dcc.entities.overviews;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,8 +35,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,6 +53,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MetadataGroupToValues.findByMetadataGroup", query = "SELECT m FROM MetadataGroupToValues m WHERE m.metadataGroup = :metadataGroup"),
     @NamedQuery(name = "MetadataGroupToValues.findByMetadataJson", query = "SELECT m FROM MetadataGroupToValues m WHERE m.metadataJson = :metadataJson")})
 public class MetadataGroupToValues implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,12 +64,32 @@ public class MetadataGroupToValues implements Serializable {
     private String metadataGroup;
     @Column(name = "metadata_json", length = 4092)
     private String metadataJson;
+    @Transient
+    private Map<String, String> metadata = null;
+
+    private Map<String, String> parseToJson(String s) {
+        Map<String, String> kv = new HashMap<>();
+        JSONParser parser = new JSONParser();
+        s = "{" + s + "}";
+        try {
+            JSONObject json = (JSONObject) parser.parse(s);
+            Set keys = json.keySet();
+            Iterator j = keys.iterator();
+            while (j.hasNext()) {
+                String k = (String) j.next();
+                String v = (String) json.get(k);
+                kv.put(k, v);
+            }
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+        }
+        return kv;
+    }
 
     public MetadataGroupToValues() {
     }
 
     public MetadataGroupToValues(Long metadataGroupToValuesId) {
-        this.metadataGroupToValuesId = metadataGroupToValuesId;
     }
 
     @XmlElement(name = "i")
@@ -77,7 +110,7 @@ public class MetadataGroupToValues implements Serializable {
         this.metadataGroup = metadataGroup;
     }
 
-    @XmlElement(name = "v")
+    @XmlTransient
     public String getMetadataJson() {
         return metadataJson;
     }
@@ -85,4 +118,17 @@ public class MetadataGroupToValues implements Serializable {
     public void setMetadataJson(String metadataJson) {
         this.metadataJson = metadataJson;
     }
+
+    @XmlElement(name = "v")
+    public Map<String, String> getMetadata() {
+        if (metadata == null) {
+            metadata = parseToJson(metadataJson);
+        }
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
+    }
+
 }
